@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire", "Aspire\Aspire.csproj", "{90B988A5-517E-4D51-8CDD-91B8C16EA4B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90B988A5-517E-4D51-8CDD-91B8C16EA4B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90B988A5-517E-4D51-8CDD-91B8C16EA4B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90B988A5-517E-4D51-8CDD-91B8C16EA4B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90B988A5-517E-4D51-8CDD-91B8C16EA4B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
