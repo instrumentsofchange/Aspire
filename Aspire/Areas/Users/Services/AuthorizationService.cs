@@ -29,38 +29,21 @@ namespace Aspire.Users.Authentication
             {
                 var fullDatabasePasswordHash = await connection.QuerySingleOrDefaultAsync<string>(authenticateSql, new { Username = username });
 
-                var result = true;
-
-                if(fullDatabasePasswordHash != null)
+                if(fullDatabasePasswordHash == null)
                 {
-                    //get the salt from the saved password
-                    var passwordHashBytes = Convert.FromBase64String(fullDatabasePasswordHash);
-
-                    byte[] salt = new byte[16];
-
-                    Array.Copy(passwordHashBytes, 0, salt, 0, 16);
-
-                    //convert the user inputted password into hash (byte[])
-                    var pbkdf2 = new Rfc2898DeriveBytes(password, salt);
-
-                    var userInputtedPasswordHash = pbkdf2.GetBytes(20);
-
-                    //check if each password hash is equal byte by byte
-                    byte[] databasePasswordHash = new byte[20];
-
-                    Array.Copy(passwordHashBytes, 16, databasePasswordHash, 0, 20);
-
-                    for(int i = 0; i < 20; i++)
-                    {
-                        if(userInputtedPasswordHash[i] != databasePasswordHash[i])
-                        {
-                            result = false;
-                            break;
-                        }
-                    }
+                    //no user found (invalid username
+                    return false;
                 }
 
-                return result;
+                var fullPasswordHashBytes = Convert.FromBase64String(fullDatabasePasswordHash);
+
+                var passwordHashBytes = GetPasswordHash(fullPasswordHashBytes);
+
+                var salt = GetPasswordHashSalt(fullPasswordHashBytes);
+
+                var userInputPasswordHashBytes = new Rfc2898DeriveBytes(password, salt).GetBytes(20);
+
+                return MatchPasswords(passwordHashBytes, userInputPasswordHashBytes);
             }
         }
 
@@ -86,6 +69,47 @@ namespace Aspire.Users.Authentication
         public byte[] HashPassword(byte[] salt)
         {
             return new byte[1];
+        }
+
+        private byte[] GetPasswordHashSalt(byte[] fullPasswordHashBytes)
+        {
+            byte[] salt = new byte[16];
+
+            for(int i = 0; i < 16; i++)
+            {
+                salt[i] = fullPasswordHashBytes[i];
+            }
+
+            return salt;
+        }
+
+        private byte[] GetPasswordHash(byte[] fullPasswordHashBytes)
+        {
+            byte[] password = new byte[20];
+
+            for(int i = 0; i < 20; i++)
+            {
+                password[i] = fullPasswordHashBytes[i + 16];
+            }
+
+            return password;
+        }
+
+
+        private bool MatchPasswords(byte[] passwordOne, byte[] passwordTwo)
+        {
+            var result = true;
+
+            for(int i = 0; i < 20; i++)
+            {
+                if(passwordOne[i] != passwordTwo[i])
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

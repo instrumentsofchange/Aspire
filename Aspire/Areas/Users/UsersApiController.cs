@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
-using Aspire.Areas.Users.Exceptions;
+using Aspire.Areas.Users.Models;
 using Aspire.Areas.Users.Services.Interfaces;
 using Aspire.Authentication.Models;
 using Aspire.Users.Authentication;
 using Aspire.Users.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Web;
 
 namespace Aspire.Authentication
 {
@@ -31,25 +29,11 @@ namespace Aspire.Authentication
             return Ok(await _userService.GetUsernameAvailability(username));
         }
        
-
         [HttpPost]
         [Route("/api/users/create")]
         public async Task<ActionResult> CreateUser([FromBody]User user)
         {
-            //return Ok(await _userService.CreateUser(user));
-
-            string foo = null;
-
-            foo.Equals("");
-
-            try
-            {
-                return Ok(await _userService.CreateUser(user));
-            }
-            catch (EmailNotAvailableException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _userService.CreateUser(user));
         }
 
         [HttpPost]
@@ -83,7 +67,14 @@ namespace Aspire.Authentication
 
         [HttpGet]
         [Route("/api/users/profile")]
-        public async Task<ActionResult> Profile([FromHeader]string username, [FromHeader]string expirationDate)
+        public async Task<ActionResult> GetUserProfile([FromHeader]string username)
+        {
+            return Ok(await _userService.GetUser(username));
+        }
+
+        [HttpGet]
+        [Route("/api/users/authenticatetoken")]
+        public async Task<ActionResult> AuthenticateToken([FromHeader]string username, [FromHeader]string expirationDate)
         {
             /*
                 This endpoint represents trying to retrieve a user profile based off
@@ -111,6 +102,22 @@ namespace Aspire.Authentication
             }
 
             return BadRequest(new { success = false });
+        }
+
+        [HttpPut]
+        [Route("/api/users/updateLogin")]
+        public async Task<ActionResult> UpdateLoginInfo([FromBody]UpdateLoginInfo request)
+        {
+            request.OldPassword = "";
+
+            return Ok(await _userService.UpdateUserLoginInfo(request));
+        }
+
+        [HttpPut]
+        [Route("/api/users")]
+        public async Task<ActionResult> UpdateUser([FromBody] User user)
+        {
+            return Ok(await _userService.UpdateUser(user));
         }
     }
 

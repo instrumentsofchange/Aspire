@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Threading.Tasks;
+using Aspire.Areas.Shared.Extensions;
 using Aspire.Areas.Users.Exceptions;
+using Aspire.Areas.Users.Models;
 using Aspire.Areas.Users.Services.Interfaces;
 using Aspire.Configuration;
 using Aspire.Users.Authentication;
@@ -117,12 +119,166 @@ namespace Aspire.Areas.Users.Services
                 [eMail]
                 FROM [dbo].[User] [user]
                 INNER JOIN [dbo].[Role] role ON role.[RoleId] = [user].[RoleId]
-                WHERE [UserName] = @Username
+                WHERE [UserName] = @Username;
+
+                SELECT
+                    address.[AddressOne],
+                    address.[AddressTwo],
+                    address.[State],
+                    address.[city],
+                    address.[ZipCode]
+                FROM [dbo].[Address] address
+                INNER JOIN [dbo].[User] u ON u.[AddressId] = address.[AddressId]
+                WHERE u.[UserName] = @Username;
             ";
 
-            using(var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
+            using (var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
             {
-                return await connection.QuerySingleAsync<User>(sql, new { Username = username });
+                using (var multi = await connection.QueryMultipleAsync(sql, new { Username = username }))
+                {
+                    var user = await multi.ReadFirstOrDefaultAsync<User>();
+                    user.Address = await multi.ReadSingleOrDefaultAsync<Address>();
+
+                    return user;
+                }
+            }
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            const string sql = @"
+                DECLARE @RowCount INT = 0;
+
+                UPDATE [dbo].[User]
+                SET
+                    [FirstName] = @FirstName,
+                    [LastName] = @LastName,
+                    [UserName] = @Username,
+                    [eMail] = @email
+                WHERE [UserName] = @Username;
+
+                SET @RowCount = @@ROWCOUNT;
+
+                UPDATE address
+                SET
+                    [AddressOne] = @AddressOne,
+                    [AddressTwo] = @AddressTwo,
+                    [State] = @State,
+                    [city] = @City,
+                    [ZipCode] = @ZipCode
+                FROM [dbo].[Address] address
+                INNER JOIN [dbo].[User] u ON u.[AddressId] = address.[AddressId]
+                WHERE u.[Username] = @Username;
+
+                SET @RowCount += @@ROWCOUNT;
+
+                SELECT @RowCount;
+            ";
+
+            var queryParams = new
+            {
+                user.FirstName,
+                user.LastName,
+                user.Username,
+                user.Email,
+                user.Address.AddressOne,
+                user.Address.AddressTwo,
+                user.Address.State,
+                user.Address.City,
+                user.Address.ZipCode
+            };
+
+            using(var connection = _iocDbConnectionFactory.GetReadWriteConnection())
+            {
+                return await connection.QuerySingleAsync<int>(sql, queryParams) == 2;
+            }
+        }
+
+        public async Task<bool> UpdateUserLoginInfo(UpdateLoginInfo newLoginInfo)
+        {
+            //validate that the current password is correct
+            if (!newLoginInfo.NewPassword.IsNullOrEmpty())
+            {
+                var oldCredentialsValid = await _authorizationService.AuthenticateUser(newLoginInfo.OldUsername, newLoginInfo.OldPassword);
+
+                if (!oldCredentialsValid)
+                {
+                    throw new UpdateLoginInfoException("Current Password is incorrect");
+                }
+
+                var newPasswordHashBytes = _authorizationService.EncryptPassword(newLoginInfo.NewPassword);
+
+                var passwordUpdateSuccess = await UpdatePassword(newPasswordHashBytes, newLoginInfo.OldUsername);
+
+                if (!passwordUpdateSuccess)
+                {
+                    throw new UpdateLoginInfoException();
+                }
+            }
+
+            //Validate that the new username is available
+            if (!newLoginInfo.NewUsername.IsNullOrEmpty())
+            {
+                var usernameAvailable = await GetUsernameAvailability(newLoginInfo.NewUsername);
+
+                if(!usernameAvailable)
+                {
+                    throw new UpdateLoginInfoException("New username is not available");
+                }
+
+                var usernameUpdateSuccess = await UpdateUsername(newLoginInfo.NewUsername, newLoginInfo.OldUsername);
+
+                if(!usernameUpdateSuccess)
+                {
+                    throw new UpdateLoginInfoException();
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<bool> UpdateUsername(string newUsername, string oldUsername)
+        {
+            var updateUsernameSql = @"
+                UPDATE [dbo].[User]
+                SET
+                    [UserName] = @NewUsername
+                WHERE [UserName] = @OldUsername
+
+                SELECT @@ROWCOUNT;
+            ";
+
+            using(var connection = _iocDbConnectionFactory.GetReadWriteConnection())
+            {
+                return await connection.QuerySingleAsync<int>(
+                    updateUsernameSql,
+                    new
+                    {
+                        NewUsername = newUsername,
+                        OldUsername = oldUsername
+                    }) == 1;
+            }
+        }
+
+        private async Task<bool> UpdatePassword(string newPasswordHashBytes, string username)
+        {
+            var sql = @"
+                UPDATE [dbo].[User]
+                SET [PasswordHash] = @NewPassword
+                WHERE [UserName] = @Username;
+
+                SELECT @@ROWCOUNT;
+            ";
+
+            using(var connection = _iocDbConnectionFactory.GetReadWriteConnection())
+            {
+                return await connection.QuerySingleAsync<int>(
+                    sql,
+                    new
+                    {
+                        NewPassword = newPasswordHashBytes,
+                        Username = username
+                    }) == 1;
             }
         }
 
@@ -134,14 +290,7 @@ namespace Aspire.Areas.Users.Services
 
             if (!available)
             {
-                user.Username = user.FirstName + user.LastName;
-
-                available = await GetUsernameAvailability(user.Username);
-
-                if (!available)
-                {
-                    user.Username = user.Email;
-                }
+                user.Username = user.Email;
             }
 
             return user;

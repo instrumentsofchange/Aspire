@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
-import { Alert, Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
+import { Alert, Button, Form, Row, Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import * as Yup from 'yup';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 import { Roles } from '../../shared/enums/RolesEnum';
+import States from '../../shared/formHelpers/states';
 
 const getMaxErrorMessage = (propertyName, maxLength, type) => {
     return `${propertyName} can be a max of ${maxLength} ${type === 'string' ? 'characters' : 'numbers'}`;
@@ -93,7 +94,7 @@ export default class CreateUser extends Component {
 
         return (
             <div className="row">
-                <div className="col-md-6 offset-md-3 order-md-1">
+                <div className="col-md-8 offset-md-2 order-md-1">
                     {
                         createUserError &&
                         <div className="mt-5 mb-5">
@@ -131,192 +132,226 @@ export default class CreateUser extends Component {
                             handleSubmit
                         }) => (
                             <Form onSubmit={handleSubmit}>
+
+                                <Row form>
+
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="firstName">First Name</Label>
+                                            <Input 
+                                                type="text"
+                                                name="firstName"
+                                                value={values.firstName}
+                                                onChange={handleChange}
+                                                invalid={errors.firstName && touched.firstName}
+                                            />
+                                            {
+                                                errors.firstName && touched.firstName
+                                                ? <FormFeedback>{errors.firstName}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="lastName">Last Name</Label>
+                                            <Input 
+                                                type="text"
+                                                name="lastName"
+                                                value={values.lastName}
+                                                onChange={handleChange}
+                                                invalid={errors.lastName && touched.lastName}
+                                            />
+                                            {
+                                                errors.lastName && touched.lastName 
+                                                ? <FormFeedback>{errors.lastName}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="email">Email</Label>
+                                            <Input 
+                                                type="text"
+                                                name="email"
+                                                value={values.email}
+                                                onChange={handleChange}
+                                                invalid={errors.email && touched.email}
+                                            />
+                                            {
+                                                errors.email && touched.email
+                                                ? <FormFeedback>{errors.email}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+
+                                </Row>
                                 
-                                <FormGroup>
-                                    <Label for="firstName">First Name</Label>
-                                    <Input 
-                                        type="text"
-                                        name="firstName"
-                                        value={values.firstName}
-                                        onChange={handleChange}
-                                        invalid={errors.firstName && touched.firstName}
-                                    />
-                                    {
-                                        errors.firstName && touched.firstName
-                                        ? <FormFeedback>{errors.firstName}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                <Row form>
 
-                                <FormGroup>
-                                    <Label for="lastName">Last Name</Label>
-                                    <Input 
-                                        type="text"
-                                        name="lastName"
-                                        value={values.lastName}
-                                        onChange={handleChange}
-                                        invalid={errors.lastName && touched.lastName}
-                                    />
-                                    {
-                                        errors.lastName && touched.lastName 
-                                        ? <FormFeedback>{errors.lastName}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                    <Col md={6}>
+                                        <FormGroup>
+                                            <Label for="addressOne">Address One</Label>
+                                            <Input 
+                                                type="text"
+                                                name="addressOne"
+                                                onChange={handleChange}
+                                                value={values.addressOne}
+                                                invalid={errors.addressOne && touched.addressOne}
+                                            />
+                                            {
+                                                errors.addressOne && touched.addressOne
+                                                ? <FormFeedback>{errors.addressOne}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+                                    
+                                    <Col md={6}>
+                                        <FormGroup>
+                                            <Label for="addressTwo">Adress Two</Label>
+                                            <Input 
+                                                type="text"
+                                                name="addressTwo"
+                                                onChange={handleChange}
+                                                value={values.addressTwo}
+                                                invalid={errors.addressTwo && touched.addressTwo}
+                                            />
+                                            {
+                                                errors.addressTwo && touched.addressTwo
+                                                ? <FormFeedback>{errors.addressTwo}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
 
-                                <FormGroup>
-                                    <Label for="email">Email</Label>
-                                    <Input 
-                                        type="text"
-                                        name="email"
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        invalid={errors.email && touched.email}
-                                    />
-                                    {
-                                        errors.email && touched.email
-                                        ? <FormFeedback>{errors.email}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
-                                
-                                <FormGroup>
-                                    <Label for="addressOne">Address One</Label>
-                                    <Input 
-                                        type="text"
-                                        name="addressOne"
-                                        onChange={handleChange}
-                                        value={values.addressOne}
-                                        invalid={errors.addressOne && touched.addressOne}
-                                    />
-                                    {
-                                        errors.addressOne && touched.addressOne
-                                        ? <FormFeedback>{errors.addressOne}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                </Row>
 
-                                <FormGroup>
-                                    <Label for="addressTwo">Adress Two</Label>
-                                    <Input 
-                                        type="text"
-                                        name="addressTwo"
-                                        onChange={handleChange}
-                                        value={values.addressTwo}
-                                        invalid={errors.addressTwo && touched.addressTwo}
-                                    />
-                                    {
-                                        errors.addressTwo && touched.addressTwo
-                                        ? <FormFeedback>{errors.addressTwo}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                <Row form>
 
-                                <FormGroup>
-                                    <Label for="city">City</Label>
-                                    <Input 
-                                        type="text"
-                                        name="city"
-                                        onChange={handleChange}
-                                        value={values.city}
-                                        invalid={errors.city && touched.city}
-                                    />
-                                    {
-                                        errors.city && touched.city
-                                        ? <FormFeedback>{errors.city}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="city">City</Label>
+                                            <Input 
+                                                type="text"
+                                                name="city"
+                                                onChange={handleChange}
+                                                value={values.city}
+                                                invalid={errors.city && touched.city}
+                                            />
+                                            {
+                                                errors.city && touched.city
+                                                ? <FormFeedback>{errors.city}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
 
-                                <FormGroup>
-                                    <Label for="state">State</Label>
-                                    <Input
-                                        type="select"
-                                        name="state"
-                                        onChange={handleChange}
-                                        invalid={errors.state && touched.state}
-                                        defaultValue="Select One..."
-                                    >
-                                        {this.getStateSelectOptions()}
-                                    </Input>
-                                    {
-                                        errors.state && touched.state
-                                        ? <FormFeedback>{errors.state}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="state">State</Label>
+                                            <Input
+                                                type="select"
+                                                name="state"
+                                                onChange={handleChange}
+                                                invalid={errors.state && touched.state}
+                                                defaultValue="Select One..."
+                                            >
+                                                {this.getStateSelectOptions()}
+                                            </Input>
+                                            {
+                                                errors.state && touched.state
+                                                ? <FormFeedback>{errors.state}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
 
-                                <FormGroup>
-                                    <Label for="zipCode">Zip Code</Label>
-                                    <Input 
-                                        type="text"
-                                        name="zipCode"
-                                        onChange={handleChange}
-                                        value={values.zipCode}
-                                        invalid={errors.zipCode && touched.zipCode}
-                                    />
-                                    {
-                                        errors.zipCode && touched.zipCode
-                                        ? <FormFeedback>{errors.zipCode}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                    <Col md={4}>
+                                        <FormGroup>
+                                            <Label for="zipCode">Zip Code</Label>
+                                            <Input 
+                                                type="text"
+                                                name="zipCode"
+                                                onChange={handleChange}
+                                                value={values.zipCode}
+                                                invalid={errors.zipCode && touched.zipCode}
+                                            />
+                                            {
+                                                errors.zipCode && touched.zipCode
+                                                ? <FormFeedback>{errors.zipCode}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
 
-                                <FormGroup>
-                                    <Label for="program">Program</Label>
-                                    <Input 
-                                        type="select"
-                                        name="program"
-                                        onChange={handleChange}
-                                        invalid={errors.program && touched.program}
-                                        defaultValue="Select One..."
-                                    >
-                                        {
-                                            programOptions.map(program => (
-                                                <option
-                                                    key={program.value} 
-                                                    value={program.value}
-                                                    disabled={program.disabled}
-                                                >
-                                                    {program.text}
-                                                </option>
-                                            ))
-                                        }
-                                    </Input>
-                                    {
-                                        errors.program && touched.program
-                                        ? <FormFeedback>{errors.program}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                </Row>
 
-                                <FormGroup>
-                                    <Label for="role">Role</Label>
-                                    <Input 
-                                        type="select"
-                                        name="role"
-                                        onChange={handleChange}
-                                        invalid={errors.role && touched.role}
-                                        defaultValue="Select One..."
-                                    >
-                                        {
-                                            this.getRolesSelectItems().map(role => (
-                                                <option 
-                                                    key={role.value} 
-                                                    value={role.value} 
-                                                    disabled={role.disabled} 
-                                                >
-                                                    {role.text}
-                                                </option>   
-                                            ))
-                                        }
-                                    </Input>
-                                    {
-                                        errors.role && touched.role
-                                        ? <FormFeedback>{errors.role}</FormFeedback>
-                                        : null
-                                    }
-                                </FormGroup>
+                                <Row form>
+
+                                    <Col md={6}>
+                                        <FormGroup>
+                                            <Label for="program">Program</Label>
+                                            <Input 
+                                                type="select"
+                                                name="program"
+                                                onChange={handleChange}
+                                                invalid={errors.program && touched.program}
+                                                defaultValue="Select One..."
+                                            >
+                                                {
+                                                    programOptions.map(program => (
+                                                        <option
+                                                            key={program.value} 
+                                                            value={program.value}
+                                                            disabled={program.disabled}
+                                                        >
+                                                            {program.text}
+                                                        </option>
+                                                    ))
+                                                }
+                                            </Input>
+                                            {
+                                                errors.program && touched.program
+                                                ? <FormFeedback>{errors.program}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+
+                                    <Col md={6}>                                
+                                        <FormGroup>
+                                            <Label for="role">Role</Label>
+                                            <Input 
+                                                type="select"
+                                                name="role"
+                                                onChange={handleChange}
+                                                invalid={errors.role && touched.role}
+                                                defaultValue="Select One..."
+                                            >
+                                                {
+                                                    this.getRolesSelectItems().map(role => (
+                                                        <option 
+                                                            key={role.value} 
+                                                            value={role.value} 
+                                                            disabled={role.disabled} 
+                                                        >
+                                                            {role.text}
+                                                        </option>   
+                                                    ))
+                                                }
+                                            </Input>
+                                            {
+                                                errors.role && touched.role
+                                                ? <FormFeedback>{errors.role}</FormFeedback>
+                                                : null
+                                            }
+                                        </FormGroup>
+                                    </Col>
+
+                                </Row>
 
                                 <Button className="btn-block" color="primary" type="submit">Create</Button>
                                 <pre>{JSON.stringify(values, null , 2)}</pre>
@@ -347,59 +382,8 @@ export default class CreateUser extends Component {
     }
 
     getStateSelectOptions = () => {
-        return [
-            <option key="Select One..." value="Select One..." disabled>Select One...</option>,
-            <option key="AL" value="AL">Alabama</option>,
-            <option key="AK" value="AK">Alaska</option>,
-            <option key="AZ" value="AZ">Arizona</option>,
-            <option key="AR" value="AR">Arkansas</option>,
-            <option key="CA" value="CA">California</option>,
-            <option key="CO" value="CO">Colorado</option>,
-            <option key="CT" value="CT">Connecticut</option>,
-            <option key="DE" value="DE">Delaware</option>,
-            <option key="DC" value="DC">District Of Columbia</option>,
-            <option key="FL" value="FL">Florida</option>,
-            <option key="GA" value="GA">Georgia</option>,
-            <option key="HI" value="HI">Hawaii</option>,
-            <option key="ID" value="ID">Idaho</option>,
-            <option key="IL" value="IL">Illinois</option>,
-            <option key="IN" value="IN">Indiana</option>,
-            <option key="IA" value="IA">Iowa</option>,
-            <option key="KS" value="KS">Kansas</option>,
-            <option key="KY" value="KY">Kentucky</option>,
-            <option key="LA" value="LA">Louisiana</option>,
-            <option key="ME" value="ME">Maine</option>,
-            <option key="MD" value="MD">Maryland</option>,
-            <option key="MA" value="MA">Massachusetts</option>,
-            <option key="MI" value="MI">Michigan</option>,
-            <option key="MN" value="MN">Minnesota</option>,
-            <option key="MS" value="MS">Mississippi</option>,
-            <option key="MO" value="MO">Missouri</option>,
-            <option key="MT" value="MT">Montana</option>,
-            <option key="NE" value="NE">Nebraska</option>,
-            <option key="NV" value="NV">Nevada</option>,
-            <option key="NH" value="NH">New Hampshire</option>,
-            <option key="NJ" value="NJ">New Jersey</option>,
-            <option key="NM" value="NM">New Mexico</option>,
-            <option key="NY" value="NY">New York</option>,
-            <option key="NC" value="NC">North Carolina</option>,
-            <option key="ND" value="ND">North Dakota</option>,
-            <option key="OH" value="OH">Ohio</option>,
-            <option key="OK" value="OK">Oklahoma</option>,
-            <option key="OR" value="OR">Oregon</option>,
-            <option key="PA" value="PA">Pennsylvania</option>,
-            <option key="RI" value="RI">Rhode Island</option>,
-            <option key="SC" value="SC">South Carolina</option>,
-            <option key="SD" value="SD">South Dakota</option>,
-            <option key="TN" value="TN">Tennessee</option>,
-            <option key="TX" value="TX">Texas</option>,
-            <option key="UT" value="UT">Utah</option>,
-            <option key="VT" value="VT">Vermont</option>,
-            <option key="VA" value="VA">Virginia</option>,
-            <option key="WA" value="WA">Washington</option>,
-            <option key="WV" value="WV">West Virginia</option>,
-            <option key="WI" value="WI">Wisconsin</option>,
-            <option key="WY" value="WY">Wyoming</option>
-        ];
+        return States.map(state => (
+            <option key={state.abbreviation} value={state.abbreviation}>{state.name}</option>
+        ));
     }
 }

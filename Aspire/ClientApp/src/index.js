@@ -14,6 +14,7 @@ import { BrowserRouter } from 'react-router-dom';
 import appReducer from './appRoot/app-ui-reducer';
 import userReducer from './areas/users/reducers/user-reducer';
 import instrumentsReducer from './areas/instruments/reducers/instruments-reducer';
+import schedulesReducer from './areas/schedules/reducers/schedules-reducer';
 
 //Aspire Imports
 import AspireAppContainer from './appRoot/containers/AspireAppContainer';
@@ -28,7 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     combineReducers({
       app: appReducer,
       users: userReducer,
-      instruments: instrumentsReducer
+      instruments: instrumentsReducer,
+      schedules: schedulesReducer
     }), middleware);
 
   store.dispatch(initializeApp());
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/" forceRefresh={true}>
         <AspireAppContainer />
       </BrowserRouter>
     </Provider>,

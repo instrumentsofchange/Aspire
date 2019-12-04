@@ -46,7 +46,7 @@ export const authenticateUser = (credentials) => dispatch => {
                 }
             */
 
-            console.log(JSON.stringify(response.jwt));
+            // console.log(JSON.stringify(response.jwt));
             localStorage.setItem('user_token', JSON.stringify(response.jwt));
 
             dispatch({ 
@@ -78,11 +78,11 @@ export const getProfile = () => dispatch => {
     dispatch({ type: GET_PROFILE_REQUEST });
 
     const token = localStorage.user_token;
-
+    
     if(token) {
         const jwt = JSON.parse(token);
 
-        fetch(`/api/users/profile?jwt=${token}`, {
+        fetch('/api/users/authenticatetoken', {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
@@ -114,7 +114,6 @@ export const getProfile = () => dispatch => {
 export const LOGOUT_USER_REQUEST = '@@aspire-app/LOGOUT_USER_REQUEST';
 export const LOGOUT_USER_SUCCESS = '@@aspire-app/LOGOUT_USER_SUCCESS';
 export const LOGOUT_USER_FAILURE = '@@aspire-app/LOGOUT_USER_FAILURE';
-
 export const logoutUser = () => dispatch => {
     dispatch({ type: LOGOUT_USER_REQUEST });
 

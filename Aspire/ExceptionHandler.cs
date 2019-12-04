@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Aspire.Areas.Users.Exceptions;
@@ -10,7 +8,6 @@ using Newtonsoft.Json;
 
 namespace Aspire
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ExceptionHandler
     {
         private readonly RequestDelegate _next;
@@ -60,7 +57,6 @@ namespace Aspire
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ExceptionHandlerExtensions
     {
         public static IApplicationBuilder UseMiddlewareExceptionHandler(this IApplicationBuilder builder)

@@ -21,7 +21,6 @@ export default (state = defaultState, action) => {
 
     switch (type) {
         case AUTHENTICATE_USER_REQUEST:
-        // case GET_PROFILE_REQUEST:
         case LOGOUT_USER_REQUEST:
             reducedState = {
                 isLoading: true,

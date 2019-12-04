@@ -79,7 +79,6 @@ export default class CreateEditInstrument extends Component {
             modelOptions,
             programOptions,
             studentOptions,
-            instrument,
             saveInstrument
         } = this.props;
 
@@ -98,6 +97,7 @@ export default class CreateEditInstrument extends Component {
                     validate={this.validate}
                     render={props => (
                         <Form onSubmit={props.handleSubmit}>
+
                             <FormGroup>
                                 <Label for="serialNumber">Serial Number</Label>
                                 <Input 
@@ -135,7 +135,7 @@ export default class CreateEditInstrument extends Component {
                                     type="select"
                                     onChange={props.handleChange}
                                     invalid={props.errors.instrumentType && props.touched.instrumentType}
-                                    value={isCreate ? '' : instrument.instrumentType}
+                                    value={props.values.instrumentType}
                                 >
                                     {instrumentTypeOptions.map(instrument => (
                                         <option key={instrument.value} value={instrument.value}>{instrument.text}</option>
@@ -161,7 +161,7 @@ export default class CreateEditInstrument extends Component {
                                                 this.props.getModelOptions(e.target.value);
                                             }}
                                             invalid={props.errors.make && props.touched.make }
-                                            value={isCreate ? '' : instrument.make}
+                                            value={props.values.make}
                                         >
                                             {makeOptions.map(make => (
                                                 <option key={make.value} value={make.value}>{make.text}</option>
@@ -182,7 +182,7 @@ export default class CreateEditInstrument extends Component {
                                     type="select"
                                     onChange={props.handleChange}
                                     invalid={props.errors.model && props.touched.model}
-                                    value={isCreate ? '' : instrument.model}
+                                    value={props.values.model}
                                 >
                                     {modelOptions && modelOptions.map(model => (
                                         <option key={model.value} value={model.value}>{model.text}</option>
@@ -207,7 +207,7 @@ export default class CreateEditInstrument extends Component {
                                                 form.setFieldValue('program', e.target.value);
                                             }}
                                             invalid={props.errors.program && props.touched.program}
-                                            value={isCreate ? '' : instrument.program}
+                                            value={props.values.program}
                                         >
                                             {programOptions.map(program => (
                                                 <option key={program.value} value={program.value}>{program.value}</option>
@@ -228,7 +228,7 @@ export default class CreateEditInstrument extends Component {
                                     type="select"
                                     onChange={props.handleChange}
                                     invalid={props.errors.student && props.touched.student}
-                                    value={isCreate ? '' : instrument.student}
+                                    value={props.values.student}
                                 >
                                     {studentOptions && studentOptions.map(student => (
                                         <option key={student.value} value={student.value}>{student.value}</option>
@@ -241,7 +241,6 @@ export default class CreateEditInstrument extends Component {
                             </FormGroup>
 
                             <Button className="btn-block" color="primary" type="submit">{isCreate ? 'Create' : 'Edit'}</Button>
-                            <pre>{JSON.stringify(props.values, null, 2)}</pre>
                         </Form>
                     )}
                 />

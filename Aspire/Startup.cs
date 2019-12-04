@@ -1,4 +1,5 @@
 using System.Reflection;
+using Aspire.Areas.Schedules.Configuration;
 using Aspire.Configuration;
 using Aspire.Configuration.IoC;
 using Aspire.Users.Configuration;
@@ -47,6 +48,8 @@ namespace Aspire
             services.AddConnectionFactories();
 
             services.RegisterUsersArea();
+
+            services.RegisterSchedulesArea();
 
             #endregion
         }

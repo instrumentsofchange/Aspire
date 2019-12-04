@@ -1,4 +1,5 @@
 import { convertEnumToRoleValue } from '../../shared/enums/RolesEnum';
+import Request from '../../shared/request/aspire-request';
 
 export const FETCH_PROGRAMS_REQUEST = '@@aspire-app/FETCH_PROGRAMS_REQUEST';
 export const FETCH_PROGRAMS_SUCCESS = '@@aspire-app/FETCH_PROGRAMS_SUCCESS';
@@ -7,26 +8,16 @@ export const fetchPrograms = () => dispatch => {
 
     dispatch({ type: FETCH_PROGRAMS_REQUEST });
 
-    fetch('/api/programs/options', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(parseJson)
-    .then(response => handleErrors(response))
-    .then(response => {
-        dispatch({
+    Request.get('/api/programs/options',
+        response => dispatch({
             type: FETCH_PROGRAMS_SUCCESS,
             payload: response
-        })
-    })
-    .catch(error => {
-        dispatch({
+        }),
+        ({ body: { error: { message }}}) => dispatch({
             type: FETCH_PROGRAMS_FAILURE,
-            error: error
-        });
-    });
+            error: message
+        })
+    );
 }
 
 export const CREATE_USER_REQUEST = '@@aspire-app/CREATE_USER_REQUEST';
@@ -38,56 +29,21 @@ export const createUser = (user) => dispatch => {
 
     user.role = convertEnumToRoleValue(user.role);
 
-    request('/api/users/create', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-Type': 'application/json'
+    Request.post(
+        '/api/users/create', 
+        JSON.stringify(user),
+        response => {
+            dispatch({
+                type: CREATE_USER_SUCCESS
+            });
+        },
+        ({ body: { error: { message }}}) => {
+            dispatch({
+                type: CREATE_USER_FAILURE,
+                error: message
+            });
         }
-    })
-    .then(response => (
-        dispatch({
-            type: CREATE_USER_SUCCESS
-        })
-    )).catch(error => {
-        debugger;
-        console.log(Object.keys(error));
-
-        dispatch({
-            type: CREATE_USER_FAILURE, 
-            error: error.error.message
-        })
-    });
-
-    // fetch('/api/users/create', {
-    //     method: 'POST',
-    //     body: JSON.stringify(user),
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // })
-    // .then(parseJson)
-    // .then(response => handleErrors(response))
-    // .then(response => {
-    //     dispatch({
-    //         type: CREATE_USER_SUCCESS
-    //     })
-    // })
-    // .catch(error => {
-    //     debugger;
-    //     dispatch({
-    //         type: CREATE_USER_FAILURE, 
-    //         error: error.message
-    //     });
-    // })
-}
-
-async function handleErrors (response) {
-    if(!response.ok) {
-        throw new Error(response.body);
-    }
-
-    return response.body;
+    );
 }
 
 function parseJson(response) {
@@ -97,18 +53,4 @@ function parseJson(response) {
         ok: response.ok,
         body: json,
       })));
-}
-
-function request(url, options) {
-    return new Promise((resolve, reject) => {
-        fetch(url, options)
-            .then(parseJson)
-            .then(response => {
-                if(response.ok) {
-                    return resolve(response.body);
-                }
-
-                return reject(response.body);
-            });
-    })
 }

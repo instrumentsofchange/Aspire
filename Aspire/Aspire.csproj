@@ -40,6 +40,11 @@
     <Folder Include="Areas\Users\Services\Interfaces\" />
     <Folder Include="Areas\Users\Authentication\" />
     <Folder Include="Areas\Users\Exceptions\" />
+    <Folder Include="Areas\Shared\Extensions\" />
+    <Folder Include="Areas\Schedules\" />
+    <Folder Include="Areas\Schedules\Models\" />
+    <Folder Include="Areas\Schedules\Services\" />
+    <Folder Include="Areas\Schedules\Configuration\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\Instruments\Models\SelectListOption.cs" />

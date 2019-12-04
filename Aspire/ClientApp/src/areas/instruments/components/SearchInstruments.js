@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Alert, Table, Button, Form, FormGroup, Input, Label, FormFeedback, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Redirect, Link, Switch, Route } from 'react-router-dom';
+import { Alert, Table, Button, Form, FormGroup, Input, Label, FormFeedback } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import LoadingSpinner from '../../shared/components/LoadingSpinner';
 
@@ -25,8 +25,6 @@ export default class SearchInstruments extends Component {
     render() {
         const { 
             pageLoading,
-            makeOptions,
-            searchResults,
             error
         } = this.props;
 
@@ -164,7 +162,6 @@ export default class SearchInstruments extends Component {
     }
 
     handleEditClick = () => {
-        debugger;
         window.location.reload(true);
     }
 }
