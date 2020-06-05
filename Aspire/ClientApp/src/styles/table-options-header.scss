@@ -1,0 +1,59 @@
+@import 'variables';
+
+.options-header {
+  display: inline-block;
+  cursor: pointer;
+
+  svg {
+    margin-right: $size-4;
+    pointer-events: none;
+  }
+
+  .option {
+    display: block;
+    cursor: pointer;
+    padding: 0.5rem 0;
+
+    &:hover {
+      color: $color-smoky-hover;
+    }
+  }
+
+  .first-option {
+    display: flex;
+
+    .option-menu-expand {
+      cursor: pointer;
+      display: inline-block;
+      margin-left: 0.5rem;
+      align-self: center;
+    }
+  }
+
+  .options-header-tooltip {
+    margin: 0;
+    padding: 0;
+    pointer-events: all;
+    border-radius: 3px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(#5F6A82, 0.3);
+    opacity: 1;
+
+    .option-menu {
+      width: 20rem;
+      opacity: 1;
+      font-weight: normal;
+
+      .option {
+        padding: 1rem 1rem 1rem 2rem;
+        color: $color-smoky;
+
+
+      }
+    }
+  }
+
+  .options-header-tooltip:before, .options-header-tooltip:after {
+    content: none;
+  }
+}

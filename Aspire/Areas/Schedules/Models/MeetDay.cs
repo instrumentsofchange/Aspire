@@ -3,8 +3,7 @@ namespace Aspire.Areas.Schedules.Models
 {
     public class MeetDay
     {
-        public MeetDay()
-        {
-        }
-    }
+		//public DateTime MeetDay { get; set; }
+
+	}
 }

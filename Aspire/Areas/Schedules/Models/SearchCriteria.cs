@@ -2,7 +2,7 @@
 {
     public class SearchCriteria
     {
-        public string Program { get; set; }
+        public int ProgramId { get; set; }
         public bool SpecialEvent { get; set; }
     }
 }

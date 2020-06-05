@@ -7,7 +7,7 @@ import {
 
 const mapStateToProps = (state) => {
   return {
-    initializing: state.app.isInitializing,
+    initializing: state.app.data.isInitializing,
     user: state.users.authentication
   }
 }

@@ -4,7 +4,7 @@ namespace Aspire.Configuration
 {
     public static class AppConfigurationExtensions
     {
-        public static IServiceCollection AppCofigurationExtensions(this IServiceCollection @this)
+        public static IServiceCollection AddAppCofigurationExtensions(this IServiceCollection @this)
 		{
             @this.AddSingleton<IAppConfiguration>(sp =>
             {

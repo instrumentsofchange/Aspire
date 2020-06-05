@@ -4,6 +4,7 @@ import AccessControlContainer from '../../appRoot/containers/AccessControlContai
 import { Roles } from '../shared/enums/RolesEnum';
 import CreateUserContainer from './containers/CreateUserContainer';
 import UserProfileContainer from './containers/UserProfileContainer';
+import { SinglePanelLayout } from '../shared/components'
 
 const UserRouter = () => {
     return(
@@ -11,12 +12,18 @@ const UserRouter = () => {
 
             <Route exact path="/user/create">
                 <AccessControlContainer applicationPrivileges={[Roles.admin]}>
-                    <CreateUserContainer />
+                    <SinglePanelLayout 
+                        title="Create User"
+                        content={<CreateUserContainer />}
+                    />
                 </AccessControlContainer>
             </Route>
 
             <Route exact path="/user/profile">
-                <UserProfileContainer />
+                <SinglePanelLayout 
+                    title="My Profile"
+                    content={<UserProfileContainer />}
+                />
             </Route>
 
         </Switch>

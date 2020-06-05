@@ -1,0 +1,19 @@
+@import './variables.scss';
+
+.navbar {
+  background-color: $color-smoky;
+}
+
+a {
+  color: $color-white;
+}
+
+a:hover {
+  color: #f3f3f3;
+}
+
+.ml-auto {
+  .nav-link:not(:last-child) {
+    margin-right: 2rem;
+  }
+}

@@ -1,12 +1,17 @@
 ﻿namespace Aspire.Configuration
 {
-    public class EmailSettings
+  public class EmailConfiguration : IEmailConfiguration
+  {
+    public EmailSettings EmailSettings { get; private set; }
+
+    public EmailConfiguration(EmailSettings emailSettings)
     {
-		public string EmailAddress { get; set; }
-		public string EmailAddressName { get; set; }
-		public string SmtpServerHost { get; set; }
-		public int SmtpServerPort { get; set; }
-		public string EmailAddressPassword { get; set; }
+      EmailSettings = emailSettings;
     }
+
+    public EmailSettings GetEmailSettings()
+    {
+      return EmailSettings;
+    }
+  }
 }
- 

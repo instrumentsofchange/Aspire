@@ -1,13 +1,13 @@
-import { APP_INITIALIZATION_SUCCESS } from '../../../appRoot/AppActions';
-import { convertRoleValueToEnum } from '../../shared/enums/RolesEnum';
+import { APP_INITIALIZATION_SUCCESS } from '../../../appRoot/data/actions/app-data-actions'
+import { convertRoleValueToEnum } from '../../shared/enums/RolesEnum'
 
-export const AUTHENTICATE_USER_REQUEST = '@@aspire-app/AUTHENTICATE_USER_REQUEST';
-export const AUTHENTICATE_USER_SUCCESS = '@@aspire-app/AUTHENTICATE_USER_SUCCESS';
-export const AUTHENTICATE_USER_FAILURE = '@@aspire-app/AUTHENTICATE_USER_FAILURE';
+export const AUTHENTICATE_USER_REQUEST = '@@aspire-app/AUTHENTICATE_USER_REQUEST'
+export const AUTHENTICATE_USER_SUCCESS = '@@aspire-app/AUTHENTICATE_USER_SUCCESS'
+export const AUTHENTICATE_USER_FAILURE = '@@aspire-app/AUTHENTICATE_USER_FAILURE'
 
 export const authenticateUser = (credentials) => dispatch => {
     
-    dispatch({ type: AUTHENTICATE_USER_REQUEST });
+    dispatch({ type: AUTHENTICATE_USER_REQUEST })
 
     /*
         For a successful loging, this api call expects an object in the form:
@@ -47,37 +47,37 @@ export const authenticateUser = (credentials) => dispatch => {
             */
 
             // console.log(JSON.stringify(response.jwt));
-            localStorage.setItem('user_token', JSON.stringify(response.jwt));
+            localStorage.setItem('user_token', JSON.stringify(response.jwt))
 
             dispatch({ 
                 type: AUTHENTICATE_USER_SUCCESS, 
                 user: response.user 
-            });
+            })
 
-            window.location.reload();
+            window.location.href = '/';
         } else {
             dispatch({
                 type: AUTHENTICATE_USER_FAILURE,
                 invalidLogin: true
-            });
+            })
         }
     })
     .catch(error => {
         dispatch({ 
             type: AUTHENTICATE_USER_FAILURE,
             error: error.statusText
-        });
-    });
+        })
+    })
 }
 
-export const GET_PROFILE_REQUEST = '@@aspire-app/GET_PROFILE_REQUEST';
-export const GET_PROFILE_FAILURE = '@@aspire-app/GET_PROFILE_FAILURE';
+export const GET_PROFILE_REQUEST = '@@aspire-app/GET_PROFILE_REQUEST'
+export const GET_PROFILE_FAILURE = '@@aspire-app/GET_PROFILE_FAILURE'
 export const getProfile = () => dispatch => {
     //This method looks to see if a user is still logged in from their last session
     //If they are, the api will return their user profile and if not, it will return a fals success flag
-    dispatch({ type: GET_PROFILE_REQUEST });
+    dispatch({ type: GET_PROFILE_REQUEST })
 
-    const token = localStorage.user_token;
+    const token = localStorage.user_token
     
     if(token) {
         const jwt = JSON.parse(token);
@@ -99,15 +99,15 @@ export const getProfile = () => dispatch => {
                 dispatch({ 
                     type: AUTHENTICATE_USER_SUCCESS, 
                     user: response.user
-                });
+                })
             } else {
-                localStorage.removeItem('user_token');
+                localStorage.removeItem('user_token')
             }
             
-            dispatch({ type: APP_INITIALIZATION_SUCCESS });
-        });
+            dispatch({ type: APP_INITIALIZATION_SUCCESS })
+        })
     } else {
-        dispatch({ type: APP_INITIALIZATION_SUCCESS });
+        dispatch({ type: APP_INITIALIZATION_SUCCESS })
     }
 }
 
@@ -115,19 +115,21 @@ export const LOGOUT_USER_REQUEST = '@@aspire-app/LOGOUT_USER_REQUEST';
 export const LOGOUT_USER_SUCCESS = '@@aspire-app/LOGOUT_USER_SUCCESS';
 export const LOGOUT_USER_FAILURE = '@@aspire-app/LOGOUT_USER_FAILURE';
 export const logoutUser = () => dispatch => {
-    dispatch({ type: LOGOUT_USER_REQUEST });
+    dispatch({ type: LOGOUT_USER_REQUEST })
 
-    localStorage.removeItem('user_token');
+    localStorage.removeItem('user_token')
 
-    dispatch({ type: LOGOUT_USER_SUCCESS });
+    dispatch({ type: LOGOUT_USER_SUCCESS })
+
+    window.location.href = '/'
 }
 
 const handleErrors = (response) => {
     if(!response.ok && response.status >= 500) {
-        throw Error(response);
+        throw Error(response)
     }
 
-    return response.json();
+    return response.json()
 }
 
 /*

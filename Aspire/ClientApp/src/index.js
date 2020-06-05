@@ -1,25 +1,28 @@
 //CSS
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 
 //3rd Party Libraries
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
+import { BrowserRouter } from 'react-router-dom'
 
 //Reducers
-import appReducer from './appRoot/app-ui-reducer';
-import userReducer from './areas/users/reducers/user-reducer';
-import instrumentsReducer from './areas/instruments/reducers/instruments-reducer';
-import schedulesReducer from './areas/schedules/reducers/schedules-reducer';
+import appReducer from './appRoot/data/reducers/index'
+import userReducer from './areas/users/reducers/user-reducer'
+import instrumentsReducer from './areas/instruments/reducers/index'
+import schedulesReducer from './areas/program/schedules/reducers'
+import signUpReducer from './areas/signUp/reducers/sign-up-reducer'
+import checkInReducer from './areas/program/check-in/reducers/check-in-reducer'
+import studentsReducer from './areas/program/students/reducers/index'
 
 //Aspire Imports
-import AspireAppContainer from './appRoot/containers/AspireAppContainer';
-import { initializeApp } from './appRoot/AppActions';
-import { getProfile } from './areas/users/actions/authentication-actions';
+import AspireAppContainer from './appRoot/containers/AspireAppContainer'
+import { initializeApp } from './appRoot/data/actions/app-data-actions'
+import { getProfile } from './areas/users/actions/authentication-actions'
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -30,11 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
       app: appReducer,
       users: userReducer,
       instruments: instrumentsReducer,
-      schedules: schedulesReducer
+      schedules: schedulesReducer,
+      signUp: signUpReducer,
+      checkIn: checkInReducer,
+      students: studentsReducer
     }), middleware);
 
-  store.dispatch(initializeApp());
-  store.dispatch(getProfile());
+  store.dispatch(initializeApp())
+  store.dispatch(getProfile())
 
   ReactDOM.render(
     <Provider store={store}>
@@ -42,6 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         <AspireAppContainer />
       </BrowserRouter>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById('aspire-app-container')
   );
 });

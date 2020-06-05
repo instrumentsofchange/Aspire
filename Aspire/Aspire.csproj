@@ -10,18 +10,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="15.0.0" />
+    <PackageReference Include="DapperExtensions" Version="1.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="MailKit" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Content Remove="$(SpaRoot)**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <!-- <Content Remove="$(SpaRoot)**" /> -->
+    <!-- <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" /> -->
+    <None Include="**/*" />
+    <None Include="**/*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +50,13 @@
     <Folder Include="Areas\Schedules\Models\" />
     <Folder Include="Areas\Schedules\Services\" />
     <Folder Include="Areas\Schedules\Configuration\" />
+    <Folder Include="Areas\Students\" />
+    <Folder Include="Areas\Students\Services\" />
+    <Folder Include="Areas\Students\Services\Interfaces\" />
+    <Folder Include="Areas\Students\Models\" />
+    <Folder Include="Areas\Students\Configuration\" />
+    <Folder Include="Areas\Schedules\Services\Interfaces\" />
+    <Folder Include="Areas\Shared\Email\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\Instruments\Models\SelectListOption.cs" />
@@ -53,6 +65,8 @@
   <ItemGroup>
     <None Remove="ClientApp\build\IOCLogo-WhiteBG.png" />
     <None Remove="ClientApp\build\manifest.json" />
+    <None Remove="obj\Debug\netcoreapp3.0\Razor\Pages\_ViewImports.cshtml.g.cs" />
+    <None Remove="obj\Debug\netcoreapp3.0\Razor\Pages\Error.cshtml.g.cs" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

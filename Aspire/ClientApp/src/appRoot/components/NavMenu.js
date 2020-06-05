@@ -1,82 +1,62 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand, Nav, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDrum, faChalkboardTeacher, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Roles } from '../../areas/shared/enums/RolesEnum';
+import '../../styles/nav-bar.scss'
 
 export default class NavMenu extends Component {
 
-    render() {
-        const { user, logout } = this.props;
-        console.log(user.role);
-        
-        return(
-            <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">Aspire</NavbarBrand>
-                <Nav className="ml-auto" navbar>
+	render() {
+		const { user, logout } = this.props;
 
-                    {
-                        user.role === Roles.admin &&
-                        <UncontrolledDropdown nav inNavbar>
-                            <DropdownToggle nav caret>
-                                Instruments
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                                <DropdownItem>
-                                    <Link to="/instruments/create">Create</Link>
-                                </DropdownItem>
-                                <DropdownItem>
-                                    <Link to="/instruments/search">Search</Link>
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    }
+		return (
+			<Navbar expand="md" >
+				<NavbarBrand href="/">Aspire</NavbarBrand>
+				<Nav className="ml-auto" navbar>
 
-                    {
-                        user.role === Roles.admin &&
-                        <UncontrolledDropdown>
-                            <DropdownToggle nav caret>
-                                Schedules
-                            </DropdownToggle>
-                            <DropdownMenu right>
-                                <DropdownItem>
-                                    <Link to="/schedules/create">Create</Link>
-                                </DropdownItem>
-                                <DropdownItem>
-                                    <Link to="/schedules/search">Search</Link>
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </UncontrolledDropdown>
-                    }
+					{
+						user.role === Roles.admin &&
+						<Link to="/instruments" className="nav-link">
+							<FontAwesomeIcon className="mr-2" icon={faDrum} color="white" />
+							Instruments
+						</Link>
+					}
 
-                    {
-                        <UncontrolledDropdown>
-                            <DropdownToggle nav caret>
-                                Check-In
-                            </DropdownToggle>
-                        </UncontrolledDropdown>
-                    }
-                    
-                    <UncontrolledDropdown nav inNavbar className="mr-5">
-                        <DropdownToggle nav caret>
-                            {user.username}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            {
-                                user.role == Roles.admin &&
-                                <DropdownItem>
-                                    <Link to="/user/create">Create User</Link>
-                                </DropdownItem>
-                            }
-                            <DropdownItem>
-                                <Link to="/user/profile">My Profile</Link>
-                            </DropdownItem>
-                            <DropdownItem onClick={logout}>
-                                Logout
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                </Nav>
-            </Navbar>
-        );
-    }
+					<Link to="/program" className="nav-link">
+						<FontAwesomeIcon className="mr-2" icon={faChalkboardTeacher} color="white" />
+						Programs
+					</Link>
+
+					<UncontrolledDropdown nav inNavbar className="mr-5">
+
+						<DropdownToggle nav caret>
+							<FontAwesomeIcon className="mr-2" icon={faUser} color="white" />
+							{user.username}
+						</DropdownToggle>
+
+						<DropdownMenu>
+							<Link to="/user/profile">
+								<DropdownItem>
+									My Profile
+                </DropdownItem>
+							</Link>
+							{
+								user.role === Roles.admin &&
+								<Link to="/user/create">
+									<DropdownItem>
+										Create User
+                  </DropdownItem>
+								</Link>
+							}
+							<DropdownItem onClick={logout}>
+								Logout
+              </DropdownItem>
+						</DropdownMenu>
+					</UncontrolledDropdown>
+				</Nav>
+			</Navbar>
+		)
+	}
 }

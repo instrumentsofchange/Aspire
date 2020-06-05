@@ -1,10 +1,19 @@
-﻿using System;
-namespace Aspire.Configuration.Ioc
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Aspire.Configuration.IoC
 {
-    public class EmailConfigurationExtensions
+  public static class EmailConfigurationExtensions
+  {
+    public static IServiceCollection AddEmailConfiguration(this IServiceCollection @this)
     {
-        public EmailConfigurationExtensions()
-        {
-        }
+      @this.AddSingleton<IEmailConfiguration>(sp =>
+      {
+        var configuration = sp.GetService<AppConfiguration>();
+
+        return new EmailConfiguration(configuration.EmailSettings);
+      });
+
+      return @this;
     }
+  }
 }

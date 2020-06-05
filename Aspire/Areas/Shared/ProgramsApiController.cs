@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Aspire.Configuration;
+using Aspire.Areas.Shared.Models;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,38 +11,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Aspire.Areas.Shared
 {
-    public class ProgramsApiController : Controller
+  public class ProgramsApiController : Controller
+  {
+    private readonly IIocDbConnectionFactory _iocDbConnectionFactory;
+
+    public ProgramsApiController(IIocDbConnectionFactory iocDbConnectionFactory)
     {
-        private readonly IIocDbConnectionFactory _iocDbConnectionFactory;
+      _iocDbConnectionFactory = iocDbConnectionFactory;
+    }
 
-        public ProgramsApiController(IIocDbConnectionFactory iocDbConnectionFactory)
-        {
-            _iocDbConnectionFactory = iocDbConnectionFactory;
-        }
-
-        [HttpGet]
-        [Route("/api/programs/options")]
-        public async Task<ActionResult> GetProgramOptions()
-        {
-            var sql = @"
-                SELECT [Name]
+    [HttpGet]
+    [Route("/api/programs/options")]
+    public async Task<ActionResult> GetProgramOptions()
+    {
+      var sql = @"
+                SELECT 
+                    [ProgramId] AS [Id],
+                    [Name]
                 FROM [dbo].[Program]
             ";
 
-            using(var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
-            {
-                var programs = (await connection.QueryAsync<string>(sql))
-                    .Select(program => new SelectListItem(program, program));
+      using (var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
+      {
+        var programSelectList = new List<SelectListItem>()
+        {
+          SelectListHelpers.GetDefaultItem()
+        };
+        
+				var programs = (await connection.QueryAsync<Models.Program>(sql))
+            .Select(program => new SelectListItem(program.Name, program.Id.ToString()));
 
-                var programSelectList = new List<SelectListItem>(programs.Count() + 1)
-                {
-                    SelectListHelpers.GetDefaultItem()
-                };
+        programSelectList.AddRange(programs);
 
-                programSelectList.AddRange(programs);
-
-                return Ok(programSelectList);
-            }
-        }
+        return Ok(programSelectList);
+      }
     }
+  }
 }

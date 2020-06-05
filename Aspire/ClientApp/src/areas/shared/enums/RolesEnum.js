@@ -1,8 +1,14 @@
 export const Roles = Object.freeze({
-    admin: 'ADMIN',
-    director: 'DIRECTOR',
-    student: 'STUDENT'
+    admin: 'Admin',
+    director: 'Director',
+    student: 'Student'
 });
+
+// export const Roles = Object.freeze({
+//     admin: 'ADMIN',
+//     director: 'DIRECTOR',
+//     student: 'STUDENT'
+// });
 
 export const convertRoleValueToEnum = (serverRoleId) => {
     let result;

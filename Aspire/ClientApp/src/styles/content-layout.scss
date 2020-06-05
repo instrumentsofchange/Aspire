@@ -1,0 +1,80 @@
+@import 'variables';
+
+.content-header {
+  line-height: 40px;
+  display: flex;
+
+  .program-selector {
+
+    display: inline-flex;
+
+    @media (max-width: 1440px) {
+      .program-name {
+        max-width: 108px !important;
+      }
+    }
+
+    .selection-container {
+
+      cursor: pointer;
+
+      &:hover {
+
+        .program-name {
+          color: $color-smoky-hover;
+        }
+
+        // .settings-gear-icon {
+
+        // }
+      }
+    }
+
+    .program-name {
+      font-size: $font-size-6;
+      font-weight: bold;
+      vertical-align: middle;
+      color: $color-smoky;
+      display: inline-block;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
+
+    .settings-gear-icon {
+      margin-left: 0.5rem;
+
+    }
+  }
+
+  .sub-nav-container {
+    flex-grow: 1;
+
+    .sub-nav {
+      display: flex; 
+      justify-content: center;
+      width: 100%;
+
+      a {
+        font-size: $font-size-3;
+        color: $color-smoky;
+        margin: 0 2.25rem;
+
+        &.active {
+          font-weight: bold;
+
+          &:hover {
+            color: $color-smoky;
+            cursor: default;
+          }
+        }
+
+        &:hover {
+          color: $color-smoky-hover;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

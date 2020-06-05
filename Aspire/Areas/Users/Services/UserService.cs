@@ -116,9 +116,11 @@ namespace Aspire.Areas.Users.Services
                     WHEN role.[Description] = 'DIRECTOR' THEN 1
                     WHEN role.[Description] = 'STUDENT' THEN 2
                 END AS [Role],
-                [eMail]
+                [eMail],
+                program.[Name] AS [Program]
                 FROM [dbo].[User] [user]
                 INNER JOIN [dbo].[Role] role ON role.[RoleId] = [user].[RoleId]
+                LEFT JOIN [dbo].[Program] program ON program.[ProgramId] = [user].[ProgramId]
                 WHERE [UserName] = @Username;
 
                 SELECT

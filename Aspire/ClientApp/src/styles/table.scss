@@ -1,0 +1,118 @@
+@import 'variables';
+
+.no-rows {
+  text-align: center;
+  padding: 15;
+}
+
+.aspire-table {
+  height: 38rem;
+
+  .ReactVirtualized__Table {
+  color: $color-smoky;
+
+  .ReactVirtualized__Table__headerRow {
+    text-transform: none;
+    font-size: $font-size-6;
+    font-weight: bold;
+  }
+
+  .ReactVirtualized__Grid {
+    
+    &:focus {
+      outline: 0;
+    }
+
+    .ReactVirtualized__Grid__innerScrollContainer.ReactVirtualized__Table__Row {
+
+      font-size: $font-size-5;
+
+      .ReactVirtualized__Table__rowColumn {
+
+        .cell-wrap-text {
+          white-space: normal;
+          word-break: break-all;
+        }
+
+        a {
+          cursor: pointer;
+          text-decoration: underline;
+          color: $color-smoky;
+
+          &:hover {
+            color: $color-smoky-hover;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .ReactVirtualized__Table__row:nth-child(even) {
+      background-color: white;
+    }
+
+    .ReactVirtualized__Table__row:nth-child(odd) {
+      background-color: $color-lighter-bermuda-grey;
+    }
+  }
+}
+}
+
+// .ReactVirtualized__Table {
+//   color: $color-smoky;
+
+//   .ReactVirtualized__Table__headerRow {
+//     text-transform: none;
+//     font-size: $font-size-6;
+//     font-weight: bold;
+//   }
+
+//   .ReactVirtualized__Grid {
+    
+//     &:focus {
+//       outline: 0;
+//     }
+
+//     .ReactVirtualized__Grid__innerScrollContainer.ReactVirtualized__Table__Row {
+
+//       font-size: $font-size-5;
+
+//       .ReactVirtualized__Table__rowColumn {
+
+//         .cell-wrap-text {
+//           white-space: normal;
+//           word-break: break-all;
+//         }
+
+//         a {
+//           cursor: pointer;
+//           text-decoration: underline;
+//           color: $color-smoky;
+
+//           &:hover {
+//             color: $color-smoky-hover;
+//             text-decoration: none;
+//           }
+//         }
+//       }
+//     }
+
+//     .ReactVirtualized__Table__row:nth-child(even) {
+//       background-color: white;
+//     }
+
+//     .ReactVirtualized__Table__row:nth-child(odd) {
+//       background-color: $color-lighter-bermuda-grey;
+//     }
+//   }
+// }
+
+.options-cell {
+
+  .option-icon {
+     margin: 0 7px;
+     display: inline-block;
+     cursor: pointer;
+
+  }
+}

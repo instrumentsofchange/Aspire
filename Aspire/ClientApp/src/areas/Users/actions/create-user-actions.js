@@ -13,7 +13,7 @@ export const fetchPrograms = () => dispatch => {
             type: FETCH_PROGRAMS_SUCCESS,
             payload: response
         }),
-        ({ body: { error: { message }}}) => dispatch({
+        ({ error: { message }}) => dispatch({
             type: FETCH_PROGRAMS_FAILURE,
             error: message
         })
@@ -31,26 +31,17 @@ export const createUser = (user) => dispatch => {
 
     Request.post(
         '/api/users/create', 
-        JSON.stringify(user),
+        user,
         response => {
             dispatch({
                 type: CREATE_USER_SUCCESS
             });
         },
-        ({ body: { error: { message }}}) => {
+        ({ error: { message }}) => {
             dispatch({
                 type: CREATE_USER_FAILURE,
                 error: message
             });
         }
     );
-}
-
-function parseJson(response) {
-    return new Promise((resolve) => response.json()
-      .then((json) => resolve({
-        status: response.status,
-        ok: response.ok,
-        body: json,
-      })));
 }

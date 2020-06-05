@@ -1,0 +1,17 @@
+@import '../../../../styles/variables';
+
+
+button.button-link {
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: $color-smoky;
+  border: none;
+  padding: 0 !important;
+  background: none !important;
+
+  .button-text {
+    text-decoration: none;
+  }
+}
+

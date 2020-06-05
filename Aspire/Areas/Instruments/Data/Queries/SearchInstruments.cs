@@ -13,11 +13,13 @@ namespace Aspire.Areas.Instruments.Data.Queries
     {
         public string SerialNumber { get; }
         public string Make { get; }
+        public string Program { get; }
 
-        public SearchInstruments(string serialNumber, string make)
+        public SearchInstruments(string serialNumber, string make, string program)
         {
             SerialNumber = serialNumber;
             Make = make;
+            Program = program;
         }
     }
 

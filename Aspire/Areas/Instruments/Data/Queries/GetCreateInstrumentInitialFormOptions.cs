@@ -30,8 +30,9 @@ namespace Aspire.Areas.Instruments.Data.Queries
                     var instrumentTypes = await multi.ReadAsync<string>();
                     var makes = await multi.ReadAsync<string>();
                     var programs = await multi.ReadAsync<string>();
+                    var statuses = await multi.ReadAsync<string>();
 
-                    return new CreateInstrumentInitialFormOptions(instrumentTypes, makes, programs);
+                    return new CreateInstrumentInitialFormOptions(instrumentTypes, makes, programs, statuses);
                 }
             }
         }

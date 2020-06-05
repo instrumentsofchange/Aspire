@@ -53,7 +53,6 @@ export default (state = defaultState, action) => {
             break;
 
         case CREATE_USER_FAILURE:
-            debugger;
             reducedState = {
                 ...state,
                 loading: false,

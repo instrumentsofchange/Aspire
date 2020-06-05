@@ -1,7 +1,7 @@
-﻿using System;
-namespace Aspire.Configuration
+﻿namespace Aspire.Configuration
 {
     public interface IAppConfiguration
     {
+        AppConfiguration GetAppConfiguration();
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
-namespace Aspire.Configuration
+﻿namespace Aspire.Configuration
 {
-    public interface IEmailSettings
-    {
-		EmailSettings getEmailSettings;
-    }
+  public interface IEmailConfiguration
+  {
+    EmailSettings GetEmailSettings();
+  }
 }
