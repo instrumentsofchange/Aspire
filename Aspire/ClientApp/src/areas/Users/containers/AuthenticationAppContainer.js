@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
-import Login from '../components/Login';
-import { authenticateUser } from '../actions/authentication-actions';
+import { connect } from 'react-redux'
+import Login from '../components/Login'
+import { authenticateUser } from '../actions/authentication-actions'
 
 const mapStateToProps = (state) => {
-    return state.users.authentication;
+    return state.users.authentication
 }
 
 const mapDispatchToProps = {
@@ -13,4 +13,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login);
+)(Login)

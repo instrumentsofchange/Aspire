@@ -5,7 +5,7 @@ import { Switch, Route, withRouter, BrowserRouter, Redirect } from 'react-router
 import '../../styles/main.scss'
 
 
-import AuthenticationAppContainer from '../../areas/users/containers/AuthenticationAppContainer'
+import LoginForm from '../../areas/users/containers/AuthenticationAppContainer'
 import NavMenu from './NavMenu';
 import IocLogoWhiteBg from '../../assets/IOCLogo-WhiteBG.png'
 
@@ -30,7 +30,7 @@ const App = (props) => {
 	} else if (user.isAuthenticated) {
 		content = renderAuthenticatedApp(props)
 	} else {
-		content = <AuthenticationAppContainer />
+		content = <LoginForm />
 	}
 
 	return (
