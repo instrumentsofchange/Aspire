@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch(hideDeleteModal())
         dispatch(fetchInstrumentList(filterOptions))
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
   },
 
   showDeleteModal: instrumentId => dispatch(showDeleteModal(instrumentId)),

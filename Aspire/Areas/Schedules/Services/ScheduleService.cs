@@ -222,6 +222,13 @@ namespace Aspire.Areas.Schedules.Services
 
     public async Task<IEnumerable<SelectListItem>> GetScheduleMeetDayOptions(int programId)
     {
+      var programHasActiveSchedule = (await GetSchedulesByProgram(programId)).Any(schedule => schedule.IsActive);
+
+      if (!programHasActiveSchedule) {
+        throw new Exception("No active Schedules for selected Program");
+      }
+
+
       var sql = @"
         SELECT DISTINCT([MeetDay])
         FROM [dbo].[Attendance] attendance

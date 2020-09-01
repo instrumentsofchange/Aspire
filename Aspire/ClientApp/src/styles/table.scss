@@ -9,53 +9,59 @@
   height: 38rem;
 
   .ReactVirtualized__Table {
-  color: $color-smoky;
+    color: $color-smoky;
 
-  .ReactVirtualized__Table__headerRow {
-    text-transform: none;
-    font-size: $font-size-6;
-    font-weight: bold;
-  }
-
-  .ReactVirtualized__Grid {
-    
-    &:focus {
-      outline: 0;
+    .ReactVirtualized__Table__headerRow {
+      text-transform: none;
+      font-size: $font-size-6;
+      font-weight: bold;
     }
 
-    .ReactVirtualized__Grid__innerScrollContainer.ReactVirtualized__Table__Row {
+    .ReactVirtualized__Grid {
+      
+      &:focus {
+        outline: 0;
+      }
 
-      font-size: $font-size-5;
+      .ReactVirtualized__Grid__innerScrollContainer.ReactVirtualized__Table__Row {
 
-      .ReactVirtualized__Table__rowColumn {
+        font-size: $font-size-5;
 
-        .cell-wrap-text {
-          white-space: normal;
-          word-break: break-all;
-        }
+        .ReactVirtualized__Table__rowColumn {
 
-        a {
-          cursor: pointer;
-          text-decoration: underline;
-          color: $color-smoky;
+          .cell-wrap-text {
+            white-space: normal;
+            word-break: break-all;
+          }
 
-          &:hover {
-            color: $color-smoky-hover;
-            text-decoration: none;
+          a {
+            cursor: pointer;
+            text-decoration: underline;
+            color: $color-smoky;
+
+            &:hover {
+              color: $color-smoky-hover;
+              text-decoration: none;
+            }
+          }
+
+          .options-cell.option-icon {
+            &:hover {
+              color: $color-smoky-hover;
+            }
           }
         }
       }
-    }
 
-    .ReactVirtualized__Table__row:nth-child(even) {
-      background-color: white;
-    }
+      .ReactVirtualized__Table__row:nth-child(even) {
+        background-color: white;
+      }
 
-    .ReactVirtualized__Table__row:nth-child(odd) {
-      background-color: $color-lighter-bermuda-grey;
+      .ReactVirtualized__Table__row:nth-child(odd) {
+        background-color: $color-lighter-bermuda-grey;
+      }
     }
   }
-}
 }
 
 // .ReactVirtualized__Table {

@@ -88,6 +88,7 @@ namespace Aspire.Areas.Instruments.Services.Interfaces
 
 					OR instrument.[Status] = @Status
 				)
+        AND [DateDeleted] IS NULL
       ";
 
 			using(var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
@@ -121,12 +122,8 @@ namespace Aspire.Areas.Instruments.Services.Interfaces
     public async Task DeleteInstrument(int instrumentId)
     {
       var sql = @"
-        --DELETE 
-        --FROM [dbo].[InstrumentHistory]
-        --WHERE [InstrumentId] = @InstrumentId;
-
-        DELETE 
-        FROM [dbo].[Instrument]
+        UPDATE [dbo].[Instrument]
+        SET [DateDeleted] = GETDATE()
         WHERE [InstrumentId] = @InstrumentId;
       ";
 
@@ -267,6 +264,7 @@ namespace Aspire.Areas.Instruments.Services.Interfaces
           instrument.[SerialNumber],
           instrument.[Status],
           instrument.[Type],
+          instrument.[Notes],
 
           '' AS [ModelBreak],
           model.[ModelId] AS [Id],
@@ -289,7 +287,8 @@ namespace Aspire.Areas.Instruments.Services.Interfaces
 			  INNER JOIN [dbo].[Make] make ON make.[MakeId] = model.[MakeId]
 			  LEFT JOIN [dbo].[Program] program ON program.[ProgramId] = instrument.[ProgramId]
 			  LEFT JOIN [dbo].[Student] student ON student.[StudentId] = instrument.[StudentId]
-        WHERE [InstrumentId] = @InstrumentId;
+        WHERE [InstrumentId] = @InstrumentId
+        AND instrument.[DateDeleted] IS NULL;
       ";
       
       using(var connection  = _iocDbConnectionFactory.GetReadOnlyConnection())
@@ -307,25 +306,6 @@ namespace Aspire.Areas.Instruments.Services.Interfaces
           new { instrumentId },
           splitOn: "ModelBreak,MakeBreak,ProgramBreak,StudentBreak"
         )).FirstOrDefault();
-      }
-    }
-
-    private async Task<Make> GetMake(int instrumentId)
-    {
-      var sql = @"
-        SELECT
-          make.[MakeId] AS [Id],
-          [Description]
-        FROM [dbo].[Make] make
-        INNER JOIN [dbo].[Model] model ON model.[MakeId] = make.[MakeId]
-        INNER JOIN [dbo].[Instrument] instrument ON 
-          instrument.[ModelId] = model.[ModelId]
-          AND instrument.[InstrumentId] = @InstrumentId;
-      ";
-
-      using(var connection = _iocDbConnectionFactory.GetReadOnlyConnection())
-      {
-        return await connection.QuerySingleOrDefaultAsync<Make>(sql, instrumentId);
       }
     }
 

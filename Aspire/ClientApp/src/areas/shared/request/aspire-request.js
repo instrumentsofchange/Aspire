@@ -34,27 +34,6 @@ function get(url, success, failure) {
 		.set('expirationDate', isNil(token) ? '' : token.expirationDate)
 		.on('error', error => failure(error.response))
 		.then(response => success(response.body))
-
-	// return fetch(url, {
-	// 	method: httpMethods.get,
-	// 	headers: {
-	// 		'Content-Type': 'application/json',
-	// 		// 'authorization': JSON.stringify(getUserToken())
-	// 		'username': isNil(token) ? '' : token.username,
-	// 		'expirationDate': isNil(token) ? '' : token.expirationDate
-	// 	}
-	// })
-	// .then(parseJson)
-	// .then(response => {
-	// 	console.log(response)
-	// 	return response.ok 
-	// 		? success(response.body) 
-	// 		: failure(response.body)
-	// })
-	// .catch(error => {
-	// 	console.error(error)
-
-	// })
 }
 
 function getFile(url, success, failure) {

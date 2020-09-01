@@ -18,20 +18,23 @@
 
       cursor: pointer;
 
+      .settings-gear-icon {
+        height: 2.8rem;
+        width: 2.8rem;
+        margin-left: 0.5rem;
+      }
+
       &:hover {
+        color: $color-smoky-hover;
 
         .program-name {
           color: $color-smoky-hover;
         }
-
-        // .settings-gear-icon {
-
-        // }
       }
     }
 
     .program-name {
-      font-size: $font-size-6;
+      font-size: $font-size-4;
       font-weight: bold;
       vertical-align: middle;
       color: $color-smoky;
@@ -40,11 +43,7 @@
       white-space: nowrap;
       overflow: hidden !important;
       text-overflow: ellipsis;
-    }
-
-    .settings-gear-icon {
-      margin-left: 0.5rem;
-
+      margin-bottom: 0.3rem;
     }
   }
 

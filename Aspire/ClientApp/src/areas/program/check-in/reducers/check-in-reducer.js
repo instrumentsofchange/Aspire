@@ -33,7 +33,8 @@ export default (state = defaultState, { type, payload, error }) => {
     case FETCH_MEET_DAYS_REQUEST:
       reducedState = reduceAction({ 
         loadingMeetDays: true,
-        meetDayOptions: []
+        meetDayOptions: [],
+        loadingMeetDaysError: null
       })
       break
 

@@ -33,9 +33,14 @@ export default class CheckInForm extends Component {
       programId,
       fetchMeetDays
     } = this.props;
-    console.log('checkInForm ProgramId: ', programId)
 
     fetchMeetDays(programId)
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.programId !== prevProps.programId) {
+      this.props.fetchMeetDays(this.props.programId)
+    }
   }
 
   handleMeetDayChange = ({ target: { value }}) => {

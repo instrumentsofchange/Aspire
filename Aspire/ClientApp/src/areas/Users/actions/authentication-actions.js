@@ -46,7 +46,6 @@ export const authenticateUser = (credentials) => dispatch => {
                 }
             */
 
-            // console.log(JSON.stringify(response.jwt));
             localStorage.setItem('user_token', JSON.stringify(response.jwt))
 
             dispatch({ 

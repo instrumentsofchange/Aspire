@@ -48,7 +48,6 @@ export default class SearchInstruments extends Component {
 	}
 
 	renderSearchForm = () => {
-		console.log(this.props)
 		const { 
 			makeOptions, 
 			programOptions

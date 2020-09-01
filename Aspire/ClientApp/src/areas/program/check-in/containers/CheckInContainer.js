@@ -16,13 +16,17 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  
   fetchMeetDays: programId => dispatch(fetchMeetDays(programId)),
+
   fetchStudentList: (programId, meetDay) => dispatch(fetchStudentList(programId, meetDay)),
+
   saveAttendance: (students, programId, meetDay) => {
     dispatch(saveAttendance(students, programId, meetDay))
       .then(() => dispatch(fetchStudentList(programId, meetDay)))
       .catch(error => console.error(error))
   }
+
 })
 
 export default connect(
